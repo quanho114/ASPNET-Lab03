@@ -1,7 +1,7 @@
-using AspNetWeek2.Mvc.Models;
-using AspNetWeek2.Mvc.ViewModels;
+using AspNetWeek3.Mvc.Models;
+using AspNetWeek3.Mvc.ViewModels;
 
-namespace AspNetWeek2.Mvc.Services;
+namespace AspNetWeek3.Mvc.Services;
 
 public class BookService
 {

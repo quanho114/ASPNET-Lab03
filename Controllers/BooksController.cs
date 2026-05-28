@@ -1,9 +1,9 @@
-using AspNetWeek2.Mvc.Models;
-using AspNetWeek2.Mvc.Services;
-using AspNetWeek2.Mvc.ViewModels;
+using AspNetWeek3.Mvc.Models;
+using AspNetWeek3.Mvc.Services;
+using AspNetWeek3.Mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AspNetWeek2.Mvc.Controllers;
+namespace AspNetWeek3.Mvc.Controllers;
 
 public class BooksController : Controller
 {

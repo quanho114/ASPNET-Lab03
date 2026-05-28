@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AspNetWeek2.Mvc.ViewModels;
+namespace AspNetWeek3.Mvc.ViewModels;
 
 public class BookCreateViewModel
 {

@@ -1,4 +1,4 @@
-using AspNetWeek2.Mvc.Services;
+using AspNetWeek3.Mvc.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-namespace AspNetWeek2.Mvc.Models;
+namespace AspNetWeek3.Mvc.Models;
 
 public class ErrorViewModel
 {
