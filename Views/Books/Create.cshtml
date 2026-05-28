@@ -1,0 +1,122 @@
+@model BookCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Book";
+}
+
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Thêm mới Sách</h2>
+        <p class="page-description">Đăng ký sách mới vào danh mục kho hàng bằng Form POST.</p>
+    </div>
+
+    <a class="btn btn-light"
+       asp-controller="Books"
+       asp-action="Index">
+        Quay lại danh sách
+    </a>
+</div>
+
+<div class="form-layout">
+    <form class="form-box"
+          asp-controller="Books"
+          asp-action="Create"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="All"></div>
+
+        <div class="form-group">
+            <label asp-for="Sku">Mã SKU</label>
+            <input asp-for="Sku"
+                   class="form-control"
+                   placeholder="Ví dụ: BA-1011" />
+            <span asp-validation-for="Sku" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Name">Tên sách</label>
+            <input asp-for="Name"
+                   class="form-control"
+                   placeholder="Ví dụ: Clean Code in C#" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Category">Thể loại</label>
+            <input asp-for="Category"
+                   class="form-control"
+                   placeholder="Ví dụ: IT" />
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Supplier">Nhà xuất bản</label>
+            <input asp-for="Supplier"
+                   class="form-control"
+                   placeholder="Ví dụ: NXB Trẻ" />
+            <span asp-validation-for="Supplier" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="UnitPrice">Giá bán (VND)</label>
+            <input asp-for="UnitPrice"
+                   class="form-control"
+                   placeholder="Ví dụ: 250000" />
+            <span asp-validation-for="UnitPrice" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Quantity">Số lượng nhập kho</label>
+            <input asp-for="Quantity"
+                   class="form-control"
+                   placeholder="Ví dụ: 10" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="MinStock">Mức tồn tối thiểu</label>
+            <input asp-for="MinStock"
+                   class="form-control"
+                   placeholder="Ví dụ: 5" />
+            <span asp-validation-for="MinStock" class="text-danger"></span>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <button class="btn" type="submit">
+                💾 Lưu sách
+            </button>
+
+            <a class="btn btn-secondary"
+               asp-controller="Books"
+               asp-action="Index">
+                Hủy bỏ
+            </a>
+        </div>
+    </form>
+
+    <div class="info-box" style="flex-direction: column; align-items: flex-start; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af;">
+        <h3 style="font-size: 15px; font-weight: 700; margin: 0 0 8px; color: #1e3a8a; display: flex; align-items: center; gap: 6px;">
+            <span>💡</span> Hướng dẫn Nhập kho
+        </h3>
+
+        <p style="margin-bottom: 8px; font-size: 13px; line-height: 1.45;">
+            <strong>Quy tắc đặt mã SKU:</strong> Định danh mã SKU duy nhất cho từng đầu sách (ví dụ: <code>BA-1006</code>, <code>IT-2001</code>) để phục vụ quản lý và tìm kiếm nhanh chóng.
+        </p>
+
+        <p style="margin-bottom: 8px; font-size: 13px; line-height: 1.45;">
+            <strong>Mức tồn tối thiểu:</strong> Đặt ngưỡng tồn kho tối thiểu thích hợp. Hệ thống sẽ tự động phát cảnh báo khi sách sắp hết hàng dựa trên ngưỡng này.
+        </p>
+
+        <p style="margin-bottom: 0; font-size: 13px; line-height: 1.45;">
+            <strong>Lưu ý:</strong> Tên sách, Thể loại, Đơn giá và Số lượng là các thông tin bắt buộc cần điền đầy đủ và đúng định dạng trước khi lưu kho.
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

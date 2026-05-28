@@ -1,0 +1,3 @@
+- **Lọc nhanh tồn kho**: Bộ lọc dạng kẹo (Pills) bằng JavaScript giúp lọc danh sách sách theo trạng thái tức thì không reload trang.
+- **Nhập/Bán kho nhanh**: Bộ nút tác vụ POST nhập thêm 10 quyển hoặc bán bớt 1 quyển trực tiếp tại trang Chi tiết sách real-time.
+- **Xóa sách khỏi danh mục**: Nút xóa sách kèm xác nhận Javascript giúp loại bỏ đầu sách khỏi danh mục qua phương thức POST an toàn.

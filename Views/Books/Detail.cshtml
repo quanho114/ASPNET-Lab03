@@ -1,0 +1,168 @@
+@model BookDetailViewModel
+@{
+    ViewData["Title"] = "Chi tiết Sách";
+}
+
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Chi tiết Sách</h2>
+        <p class="page-description">Sách: <strong>@Model.Name</strong></p>
+    </div>
+    <a class="btn btn-light" asp-controller="Books" asp-action="Index">← Danh mục</a>
+</div>
+
+<div class="detail-layout">
+    @* Main info table *@
+    <div>
+        <table class="table table-bordered detail-table">
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <td><code class="table-code">#@Model.Id</code></td>
+                </tr>
+                <tr>
+                    <th>SKU</th>
+                    <td><code class="table-code">@Model.Sku</code></td>
+                </tr>
+                <tr>
+                    <th>Tên sách</th>
+                    <td style="font-weight: 600; color: #0f172a;">@Model.Name</td>
+                </tr>
+                <tr>
+                    <th>Thể loại</th>
+                    <td><span class="category-badge">@Model.Category</span></td>
+                </tr>
+                <tr>
+                    <th>Nhà xuất bản</th>
+                    <td>@Model.Supplier</td>
+                </tr>
+                <tr>
+                    <th>Đơn giá</th>
+                    <td style="font-weight: 600; color: #2563eb;">@Model.PriceText</td>
+                </tr>
+                <tr>
+                    <th>Tồn kho</th>
+                    <td style="font-weight: 500; font-family: 'JetBrains Mono', monospace;">@Model.Quantity cuốn</td>
+                </tr>
+                <tr>
+                    <th>Mức tồn tối thiểu</th>
+                    <td style="font-family: 'JetBrains Mono', monospace; color: #64748b;">@Model.MinStock cuốn</td>
+                </tr>
+                <tr>
+                    <th>Giá trị tồn kho</th>
+                    <td style="font-weight: 600; color: #2563eb;">@Model.InventoryValueText</td>
+                </tr>
+                <tr>
+                    <th>Tình trạng</th>
+                    <td><span class="badge @Model.StockBadgeClass">@Model.StockStatus</span></td>
+                </tr>
+                <tr>
+                    <th>Đánh giá</th>
+                    <td>
+                        <span style="color: #f59e0b; font-size: 1.1rem;">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <span>@(i <= Math.Round(Model.Rating) ? "★" : "☆")</span>
+                            }
+                        </span>
+                        <span style="color: #64748b; font-weight: 600; margin-left: 0.5rem; font-size: 12px;">@Model.Rating / 5.0</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Gợi ý nhập hàng</th>
+                    <td style="color: #475569;">@Model.ReorderSuggestion</td>
+                </tr>
+                <tr>
+                    <th>Cập nhật lần cuối</th>
+                    <td style="color: #64748b; font-family: 'JetBrains Mono', monospace; font-size: 12px;">@Model.LastUpdatedAtText</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    @* Sidebar cards *@
+    <div>
+        <div class="info-card info-card-@Model.StockStatusClass">
+            <div class="info-card-icon">
+                @if (Model.Quantity <= 0)
+                {
+                    <span>⚠️</span>
+                }
+                else if (Model.Quantity <= Model.MinStock)
+                {
+                    <span>⚠️</span>
+                }
+                else
+                {
+                    <span>✓</span>
+                }
+            </div>
+            <div class="info-card-content">
+                <h4>Tình trạng kho</h4>
+                <h3>@Model.StockStatus</h3>
+                <p>@Model.ReorderSuggestion</p>
+            </div>
+        </div>
+
+        <div class="info-card info-card-info">
+            <div class="info-card-icon">
+                <span>💰</span>
+            </div>
+            <div class="info-card-content">
+                <h4>Giá trị hiện tại</h4>
+                <h3>@Model.InventoryValueText</h3>
+                <p>Tổng giá trị ước tính dựa trên tồn kho.</p>
+            </div>
+        </div>
+
+        <div class="info-card info-card-neutral">
+            <div class="info-card-icon">
+                <span>📅</span>
+            </div>
+            <div class="info-card-content">
+                <h4>Cập nhật lần cuối</h4>
+                <h3>@Model.LastUpdatedAtText</h3>
+                <p>Thông tin sách được cập nhật gần nhất.</p>
+            </div>
+        </div>
+
+        @* Professional Administration Console for quick restock, sell, and delete actions *@
+        <div class="info-card info-card-neutral" style="background: #f8fafc; border: 1px solid #e2e8f0; flex-direction: column; align-items: stretch; padding: 16px; margin-top: 12px;">
+            <h4 style="margin: 0 0 12px; font-size: 13.5px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 6px;">
+                <span>🛠️</span> Công cụ Quản trị Kho
+            </h4>
+            
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="warning-box" style="margin-bottom: 12px; padding: 8px 10px; font-size: 12px; background: #fef2f2; border: 1px solid #fee2e2; color: #991b1b;">
+                    ⚠️ @TempData["ErrorMessage"]
+                </div>
+            }
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; gap: 8px;">
+                    <form asp-controller="Books" asp-action="Restock" asp-route-id="@Model.Id" method="post" style="flex: 1;">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-secondary" type="submit" style="width: 100%; padding: 8px 10px; font-size: 12.5px; background: #10b981; color: white; border: none; font-weight: 600; cursor: pointer;">
+                            ➕ Nhập 10 cuốn
+                        </button>
+                    </form>
+                    
+                    <form asp-controller="Books" asp-action="Sell" asp-route-id="@Model.Id" method="post" style="flex: 1;">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-secondary" type="submit" style="width: 100%; padding: 8px 10px; font-size: 12.5px; background: #3b82f6; color: white; border: none; font-weight: 600; cursor: pointer;" @(Model.Quantity <= 0 ? "disabled style=opacity:0.5;cursor:not-allowed;" : "")>
+                            ➖ Bán 1 cuốn
+                        </button>
+                    </form>
+                </div>
+                
+                <form asp-controller="Books" asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa cuốn sách này khỏi danh mục?');" style="width: 100%;">
+                    @Html.AntiForgeryToken()
+                    <button class="btn" type="submit" style="width: 100%; padding: 9px 10px; font-size: 12.5px; background: #ef4444; border: none; font-weight: 600; cursor: pointer;">
+                        🗑️ Xóa sách khỏi danh mục
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

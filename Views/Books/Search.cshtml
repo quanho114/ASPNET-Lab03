@@ -1,0 +1,83 @@
+@model BookSearchViewModel
+
+@{
+    ViewData["Title"] = "Search Books";
+}
+
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Tìm kiếm Sách</h2>
+        <p class="page-description">Tìm kiếm sách theo từ khóa (tên, thể loại, SKU, nhà xuất bản) và đơn giá tối thiểu.</p>
+    </div>
+
+    <a class="btn btn-light"
+       asp-controller="Books"
+       asp-action="Index">
+        Quay lại danh sách
+    </a>
+</div>
+
+<div class="form-layout">
+    <form class="form-box"
+          asp-controller="Books"
+          asp-action="Search"
+          method="get">
+
+        <div class="form-group">
+            <label asp-for="Keyword">Từ khóa tìm kiếm</label>
+            <input asp-for="Keyword"
+                   class="form-control"
+                   placeholder="Tên sách, thể loại, SKU, nhà xuất bản..." />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="MinPrice">Giá bán tối thiểu (VND)</label>
+            <input asp-for="MinPrice"
+                   class="form-control"
+                   placeholder="Ví dụ: 50000" />
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <button class="btn" type="submit">
+                🔍 Tìm kiếm
+            </button>
+
+            <a class="btn btn-secondary"
+               asp-controller="Books"
+               asp-action="Search">
+                🔄 Xóa bộ lọc
+            </a>
+        </div>
+    </form>
+
+    <div>
+        <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 10px; color: #0f172a;">Kết quả tìm kiếm</h3>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Keyword) || Model.MinPrice.HasValue)
+        {
+            <div style="background: #f1f5f9; padding: 8px 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13.5px; display: inline-flex; gap: 16px;">
+                @if (!string.IsNullOrWhiteSpace(Model.Keyword))
+                {
+                    <span>Từ khóa: <strong>@Model.Keyword</strong></span>
+                }
+                @if (Model.MinPrice.HasValue)
+                {
+                    <span>Giá tối thiểu: <strong>@Model.MinPrice.Value.ToString("N0") VND</strong></span>
+                }
+            </div>
+        }
+
+        @if (Model.Books.Count == 0)
+        {
+            <div class="warning-box">
+                ⚠️ Không tìm thấy cuốn sách nào phù hợp. Vui lòng thử từ khóa khác.
+            </div>
+        }
+        else
+        {
+            <div class="table-scrollable">
+                <partial name="_BookSearchResultTable" model="Model.Books" />
+            </div>
+        }
+    </div>
+</div>

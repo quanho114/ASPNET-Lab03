@@ -1,0 +1,49 @@
+@model List<BookListItemViewModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tên sách</th>
+            <th>Thể loại</th>
+            <th>Nhà xuất bản</th>
+            <th>Giá bán</th>
+            <th>Số lượng</th>
+            <th>Trạng thái</th>
+            <th>Chi tiết</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="font-weight: 600;">@item.Name</td>
+                <td>@item.Category</td>
+                <td>@item.Supplier</td>
+                <td style="color: #2563eb; font-weight: 600;">@item.PriceText</td>
+                <td style="font-family: 'JetBrains Mono', monospace;">@item.Quantity</td>
+                <td>
+                    @if (item.StockStatus == "Còn hàng")
+                    {
+                        <span class="badge badge-success">@item.StockStatus</span>
+                    }
+                    else if (item.StockStatus == "Cần nhập thêm")
+                    {
+                        <span class="badge badge-warning">@item.StockStatus</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">@item.StockStatus</span>
+                    }
+                </td>
+                <td>
+                    <a asp-controller="Books"
+                       asp-action="Detail"
+                       asp-route-id="@item.Id">
+                        Xem
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

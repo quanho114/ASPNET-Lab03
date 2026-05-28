@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AspNetWeek2.Mvc</title>
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <a asp-controller="Home" asp-action="Index">AspNetWeek2.Mvc</a>
+            </div>
+
+            <nav class="main-nav">
+                <a asp-controller="Home" asp-action="Index">Home</a>
+                <a asp-controller="Books" asp-action="Index">List</a>
+                <a asp-controller="Books" asp-action="Stats">Stats</a>
+                <a asp-controller="Books" asp-action="Search">Search</a>
+                <a asp-controller="Books" asp-action="Create">Create</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <span>&copy; 2026 - AspNetWeek2.Mvc - Lab03</span>
+            <a href="#">Privacy</a>
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

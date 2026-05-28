@@ -1,0 +1,14 @@
+## Ignore Visual Studio & dotnet build artifacts
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Ignore VS Code
+.vscode/
+
+## OS Files
+.DS_Store
+Thumbs.db

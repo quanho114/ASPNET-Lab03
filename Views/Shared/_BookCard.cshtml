@@ -1,0 +1,34 @@
+@model BookListItemViewModel
+
+<div class="product-card" data-status="@Model.StockStatus">
+    <h3 style="margin-bottom: 2px;">@Model.Name</h3>
+    <span class="product-meta" style="display: block; font-weight: 500;">SKU: @Model.Sku</span>
+    <span class="product-meta" style="display: block;">Thể loại: @Model.Category</span>
+
+    <div class="product-price">@Model.PriceText</div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-size: 12.5px;">Tồn: <strong>@Model.Quantity</strong></span>
+        @if (Model.StockStatus == "Còn hàng")
+        {
+            <span class="badge badge-success">@Model.StockStatus</span>
+        }
+        else if (Model.StockStatus == "Cần nhập thêm")
+        {
+            <span class="badge badge-warning">@Model.StockStatus</span>
+        }
+        else
+        {
+            <span class="badge badge-danger">@Model.StockStatus</span>
+        }
+    </div>
+
+    <div class="card-actions" style="margin-top: auto; padding-top: 6px; border-top: 1px solid #f1f5f9;">
+        <a class="btn btn-light" style="width: 100%; font-size: 12px; padding: 4px 8px;"
+           asp-controller="Books"
+           asp-action="Detail"
+           asp-route-id="@Model.Id">
+            Chi tiết
+        </a>
+    </div>
+</div>
